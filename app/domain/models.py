@@ -1,4 +1,4 @@
-from sqlalchemy import ARRAY, Boolean, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -12,6 +12,12 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     registration_date = Column(DateTime)
+
+    entries = relationship("Entry", back_populates="user")
+    configuration = relationship("Configuration", uselist=False, back_populates="user")
+    notifications = relationship("Notification", back_populates="user")
+    customization = relationship("Customization", uselist=False, back_populates="user")
+    emotion_history = relationship("EmotionHistory", back_populates="user")
 
 class Emotion(Base):
     __tablename__ = "emotions"
@@ -27,8 +33,20 @@ class Entry(Base):
     timestamp = Column(DateTime)
     text = Column(String)
     image = Column(String)
-    emotion_id = Column(Integer, ForeignKey("emotions.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
 
+    user = relationship("User", back_populates="entries")
+    emotions = relationship("EntryEmotion", back_populates="entry")
+    advanced_analysis = relationship("AdvancedAnalysis", uselist=False, back_populates="entry")
+
+class EntryEmotion(Base):
+    __tablename__ = "entry_emotion"
+
+    entry_id = Column(Integer, ForeignKey("entries.id"), primary_key=True)
+    emotion_id = Column(Integer, ForeignKey("emotions.id"), primary_key=True)
+    intensity = Column(Integer)
+
+    entry = relationship("Entry", back_populates="emotions")
     emotion = relationship("Emotion")
 
 class Configuration(Base):
@@ -39,44 +57,49 @@ class Configuration(Base):
     reminder_frequency = Column(Integer)
     notifications_enabled = Column(Boolean)
 
-    user = relationship("User")
-
-
-class EntryEmotion(Base):
-    __tablename__ = "entry_emotion"
-
-    entrada_id = Column(Integer, ForeignKey("entries.id"), primary_key=True)
-    emocion_id = Column(Integer, ForeignKey("emotions.id"), primary_key=True)
-    intensidad = Column(Integer)
+    user = relationship("User", back_populates="configuration")
 
 class Notification(Base):
     __tablename__ = "notifications"
 
     id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey("users.id"))
-    mensaje = Column(String)
-    fecha_hora = Column(DateTime)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    message = Column(String)
+    timestamp = Column(DateTime)
+
+    user = relationship("User", back_populates="notifications")
 
 class AdvancedAnalysis(Base):
     __tablename__ = "advanced_analysis"
 
     id = Column(Integer, primary_key=True, index=True)
-    entrada_id = Column(Integer, ForeignKey("entries.id"))
-    resultado = Column(String)
+    entry_id = Column(Integer, ForeignKey("entries.id"))
+    result = Column(String)
+
+    entry = relationship("Entry", back_populates="advanced_analysis")
 
 class Customization(Base):
     __tablename__ = "customization"
 
     id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey("users.id"))
-    emociones_rastreadas = Column(ARRAY(String))
-    presentacion_datos = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    
+#     tracked_emotions is an array of strings
+#     data_presentation is a string
+
+#     tracked_emotions=Column(ARRAY(String))
+#     data_presentation=Column(String)
+
+#     user=relationship("User", back_populates="customization")
 
 class EmotionHistory(Base):
-    __tablename__ = "emotion_history"
+   __tablename__= "emotion_history"
+   
+   id=Column(Integer, primary_key=True,index=True)
+   user_id=Column(Integer,ForeignKey('users.id'))
+   emotion_id=Column(Integer,ForeignKey('emotions.id'))
+   timestamp=Column(DateTime)
+   intensity=Column(Integer)
 
-    id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey("users.id"))
-    emocion_id = Column(Integer, ForeignKey("emotions.id"))
-    fecha_hora = Column(DateTime)
-    intensidad = Column(Integer)
+   user=relationship('User',back_populates='emotion_history')
+   emotion=relationship('Emotion')
