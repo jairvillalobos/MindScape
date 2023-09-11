@@ -83,14 +83,7 @@ class Customization(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
-    
-#     tracked_emotions is an array of strings
-#     data_presentation is a string
 
-#     tracked_emotions=Column(ARRAY(String))
-#     data_presentation=Column(String)
-
-#     user=relationship("User", back_populates="customization")
 
 class EmotionHistory(Base):
    __tablename__= "emotion_history"
