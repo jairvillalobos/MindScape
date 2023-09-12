@@ -9,7 +9,6 @@ El proyecto sigue la Arquitectura de Cebolla y tiene la siguiente estructura de 
 ```
 MindScape/
 ├── app/
-│   ├── env/
 │   ├── domain/
 │   │   ├── models.py
 │   │   └── services.py

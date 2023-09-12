@@ -12,6 +12,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     registration_date = Column(DateTime)
+    is_verified = Column(Boolean, default=False)  # Add this line
 
     entries = relationship("Entry", back_populates="user")
     configuration = relationship("Configuration", uselist=False, back_populates="user")
@@ -79,11 +80,12 @@ class AdvancedAnalysis(Base):
     entry = relationship("Entry", back_populates="advanced_analysis")
 
 class Customization(Base):
-    __tablename__ = "customization"
+   __tablename__= "customization"
+   
+   id=Column(Integer, primary_key=True,index=True)
+   user_id=Column(Integer,ForeignKey('users.id'))
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-
+   user=relationship('User',back_populates='customization')
 
 class EmotionHistory(Base):
    __tablename__= "emotion_history"

@@ -1,21 +1,22 @@
-from fastapi import FastAPI
-from infrastructure.database import SessionLocal, engine
-from domain.models import Base
+from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from api.routers import users
 
 app = FastAPI()
 
-@app.on_event("startup")
-async def startup():
-    # Crear una nueva sesión de base de datos al iniciar la aplicación
-    app.state.db = SessionLocal()
 
-@app.on_event("shutdown")
-async def shutdown():
-    # Cerrar la sesión de base de datos al cerrar la aplicación
-    app.state.db.close()
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"msg": exc.errors()[0]['msg'].replace("Value error, ", "")},
+    )
+
+
+app.include_router(users.router)
+
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-# Aquí puedes agregar tus rutas/endpoints
