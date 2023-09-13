@@ -77,8 +77,47 @@ def send_verification_email(user, verification_token):
     # Podrías generar un token JWT con la información del usuario y luego incluir este token en el enlace de verificación.
     verification_link = "http://localhost:8000/verify/" + verification_token
 
-    body = f"Hola {user.name},\n\nPor favor verifica tu cuenta haciendo clic en el siguiente enlace:\n{verification_link}\n\nSaludos,\nTu equipo"
-    msg.attach(MIMEText(body, 'plain'))
+    body = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            .email-content {{
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background-color: #f9f9f9;
+            }}
+            .email-button {{
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="email-content">
+            <h2>Hola {user.name},</h2>
+            <p>¡Gracias por registrarte! Para completar tu registro y verificar tu cuenta, por favor haz clic en el botón de abajo.</p>
+            <a href="{verification_link}" class="email-button">Verificar mi cuenta</a>
+            <p>Si tienes problemas para hacer clic en el botón, copia y pega el siguiente enlace en tu navegador:</p>
+            <p>{verification_link}</p>
+            <p>Saludos cordiales,</p>
+            <p>MindScape</p>
+        </div>
+    </body>
+    </html>
+    """
+
+    msg.attach(MIMEText(body, 'html'))
+
 
     try:
         server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
