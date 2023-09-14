@@ -1,8 +1,6 @@
 from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from jose import JWTError
-import jwt
+from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from utils import custom_exception
 from infrastructure.database import get_db

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, Request, status, Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
-from api.routers import users
+from api.routers import users  #, entries
 from utils import CustomHTTPException, custom_exception_handler, custom_exception
 from domain.services import ALGORITHM, SECRET_KEY
 
@@ -32,6 +32,7 @@ async def handle_custom_exceptions(request: Request, exc: CustomHTTPException):
     return await custom_exception_handler(request, exc)
 
 app.include_router(users.router)
+#app.include_router(entries.router)  # Agrega esto
 
 
 @app.get("/ruta_protegida", dependencies=[Depends(get_current_user)])
