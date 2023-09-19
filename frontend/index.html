@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindScape Face</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-blue-500 flex items-center justify-center h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-5 w-1/2">
+      <h1 class="text-3xl mb-4 text-center">MindScape Face</h1>
+
+      <video id="video" autoplay class="w-full rounded-lg shadow-inner"></video>
+
+      <div class="flex justify-between items-center mt-4">
+        <button id="playButton" class="px-3 py-1 bg-blue-500 text-white rounded">Play</button>
+        <button id="stopButton" class="px-3 py-1 bg-red-500 text-white rounded">Stop</button>
+      </div>
+
+      <div id="emotions" class="mt-4 p-4 bg-gray-100 rounded-lg shadow-inner">
+        <h2 class="text-xl mb-2">Emociones detectadas:</h2>
+      </div>
+    </div>
+    <script src="src/assets/js/main.js"></script>
+  </body>
+</html>
