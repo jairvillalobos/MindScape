@@ -23,7 +23,7 @@ class EmotionDetector:
                 print(e)
 
     def load_cascade_and_model(self):
-        faceCascade = cv2.CascadeClassifier('app/haarcascade_frontalface_default.xml')
+        faceCascade = cv2.CascadeClassifier('app/frontal_face/haarcascade_frontalface_default.xml')
         model = load_model('app/keras_model/model_5-49-0.62.hdf5')
         return faceCascade, model
 

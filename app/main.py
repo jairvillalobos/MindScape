@@ -32,7 +32,6 @@ async def handle_custom_exceptions(request: Request, exc: CustomHTTPException):
 
 app.include_router(users.router)
 app.include_router(entries.router)
-# Incluir el router de emociones en tu aplicación principal
 app.include_router(emotions_router)
 
 
