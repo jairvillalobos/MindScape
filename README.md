@@ -56,3 +56,16 @@ Instrucciones para usar el proyecto.
 ```shell
 uvicorn main:app --reload
 ```
+
+## Crea un archivo .env y reemplaza los valores por los propios
+
+```
+SECRET_KEY=<your_secret_key>
+ALGORITHM=<your_algorithm>
+SMTP_SERVER=<your_smtp_server>
+SMTP_PORT=<your_smtp_port>
+EMAIL_ADDRESS=<your_email_address>
+EMAIL_PASSWORD=<your_email_password>
+ACCESS_TOKEN_EXPIRE_MINUTES=<access_token_expire_minutes>
+DATABASE_URL=<your_database_url>
+```
