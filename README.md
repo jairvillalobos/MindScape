@@ -12,12 +12,9 @@ MindScape/
 │   ├── domain/
 │   │   ├── models.py
 │   │   └── services.py
-│   ├── application/
-│   │   ├── interfaces.py
-│   │   └── services.py
 │   ├── infrastructure/
-│   │   ├── database.py
-│   │   └── repositories.py
+│   │   └── database.py
+│   │   
 │   └── api/
 │       └── routers/
 │           ├── users.py
@@ -51,3 +48,11 @@ Instrucciones para instalar el proyecto.
 ## Uso
 
 Instrucciones para usar el proyecto.
+
+
+## Ejecutar el comando dentro de la carpeta 
+- ### **app**
+
+```shell
+uvicorn main:app --reload
+```
